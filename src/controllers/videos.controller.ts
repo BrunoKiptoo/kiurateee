@@ -19,7 +19,6 @@ const createVideo = async (req: Request, res: Response) => {
         // if (!existingUser) {
         //     return res.status(404).json({ error: true, message: "User not found", data: null });
         // }
-        //
 
         const newVideo = new Video({ videoId, source, category, userId, date, metadata });
         const video = await newVideo.save();
