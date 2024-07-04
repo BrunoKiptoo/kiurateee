@@ -1,0 +1,61 @@
+{
+  "name": "kiurateeeeeeee",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:run": "nodemon ./dist/app.js",
+    "start": "node dist/app.js",
+    "push:compile": "tsc",
+    "compile": "tsc -p . -w",
+    "build": "npm install && rimraf dist && tsc && ls dist",
+    "es:lint": "eslint . --fix .",
+    "prettier": "prettier --write src/**/*.ts",
+    "lint": "npm run prettier && eslint src/**/*.ts",
+    "lint-fix": "npm run prettier && eslint src/**/*.ts --fix",
+    "dev": "concurrently \"npx tsc -w\" \"nodemon dist/app.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "lint-staged": {
+    "*.ts": "npm run lint",
+    "*.js": "npm run lint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "helmet": "^7.1.0",
+    "mongoose": "^8.4.4",
+    "morgan": "^1.10.0",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.14.9",
+    "concurrently": "^8.0.1",
+    "eslint": "^8.45.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "nodemon": "^3.1.4",
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}
