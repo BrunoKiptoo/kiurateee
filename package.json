@@ -8,7 +8,7 @@
     "start": "node dist/app.js",
     "push:compile": "tsc",
     "compile": "tsc -p . -w",
-    "build": "npm install && rimraf dist && tsc && ls dist",
+    "build": "rimraf dist && tsc && mv src/*.js dist/",
     "es:lint": "eslint . --fix .",
     "prettier": "prettier --write src/**/*.ts",
     "lint": "npm run prettier && eslint src/**/*.ts",
