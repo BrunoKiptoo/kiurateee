@@ -28,7 +28,7 @@ const register = async (req: Request, res: Response) => {
   }
 
   const { name, mobileNumber, password, tag } = req.body;
-  const avatar = req.file; 
+  const avatar = req.file;
 
   try {
     // Check if the tag already exists
@@ -87,7 +87,6 @@ const register = async (req: Request, res: Response) => {
     res.status(500).send("Server error");
   }
 };
-
 
 const login = async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -245,7 +244,7 @@ const resetPasswordWithCode = async (req: Request, res: Response) => {
 // Update user info
 const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params; // User ID from route params
-  const { name, mobileNumber, password, tag, profile_picture } = req.body; 
+  const { name, mobileNumber, password, tag, profile_picture } = req.body;
 
   // Validate incoming request
   const errors = validationResult(req);
@@ -270,7 +269,7 @@ const updateUser = async (req: Request, res: Response) => {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
     }
-    if (profile_picture) user.profile_picture = profile_picture; 
+    if (profile_picture) user.profile_picture = profile_picture;
 
     await user.save();
 
@@ -328,7 +327,6 @@ const getAllUsers = async (req: Request, res: Response) => {
   if (name) {
     query.name = new RegExp(name as string, "i");
   }
-
 
   try {
     const total = await User.countDocuments(query);

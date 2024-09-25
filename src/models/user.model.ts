@@ -12,9 +12,9 @@ export interface IUser extends Document {
   profile_picture?: {
     public_id: string;
     url: string;
-  }; 
-  following: Schema.Types.ObjectId[]; 
-  followers: Schema.Types.ObjectId[]; 
+  };
+  following: Schema.Types.ObjectId[];
+  followers: Schema.Types.ObjectId[];
 }
 
 const UserSchema: Schema = new Schema({
