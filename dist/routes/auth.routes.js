@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const api_key_config_1 = require("../config/api-key.config");
+const express_1 = require("express");
+const auth_contoller_1 = require("../controllers/auth.contoller");
+const auth_validators_1 = require("../middlewares/validators/auth.validators");
+const validate_request_1 = require("../middlewares/validate-request");
+const router = (0, express_1.Router)();
+router.post("/register", api_key_config_1.validateApiKey, auth_validators_1.registerValidator, validate_request_1.validate, auth_contoller_1.register);
+router.post("/login", api_key_config_1.validateApiKey, auth_validators_1.loginValidator, validate_request_1.validate, auth_contoller_1.login);
+router.post("/refresh-token", api_key_config_1.validateApiKey, auth_contoller_1.refreshToken);
+router.put("/user/:id", api_key_config_1.validateApiKey, auth_validators_1.updateUserValidator, validate_request_1.validate, auth_contoller_1.updateUser);
+router.delete("/users", api_key_config_1.validateApiKey, auth_contoller_1.deleteAllUsers);
+router.delete("/user/:id", api_key_config_1.validateApiKey, auth_contoller_1.deleteUser);
+router.get("/users", api_key_config_1.validateApiKey, auth_contoller_1.getAllUsers);
+router.post("/reset-password", api_key_config_1.validateApiKey, auth_validators_1.resetPasswordValidator, validate_request_1.validate, auth_contoller_1.resetPassword);
+router.post("/reset-password-with-code", api_key_config_1.validateApiKey, auth_validators_1.resetPasswordWithCodeValidator, validate_request_1.validate, auth_contoller_1.resetPasswordWithCode);
+router.post("/follow/:userId", api_key_config_1.validateApiKey, auth_validators_1.followUserValidator, validate_request_1.validate, auth_contoller_1.followUser);
+router.post("/unfollow/:userId", api_key_config_1.validateApiKey, auth_validators_1.unfollowUserValidator, validate_request_1.validate, auth_contoller_1.unfollowUser);
+router.get("/following/:userId", api_key_config_1.validateApiKey, auth_contoller_1.getFollowing);
+router.get("/followers/:userId", api_key_config_1.validateApiKey, auth_contoller_1.getFollowers);
+exports.default = router;
+//# sourceMappingURL=auth.routes.js.map

@@ -1,17 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCategoryValidator = exports.getCategoryValidator = exports.createCategoryValidator = void 0;
+exports.addCategoryValidator = void 0;
 const express_validator_1 = require("express-validator");
-exports.createCategoryValidator = [
-    (0, express_validator_1.check)('title').notEmpty().withMessage('Title is required'),
-    (0, express_validator_1.check)('description').optional(),
-    (0, express_validator_1.check)('coverImage').optional(),
-    (0, express_validator_1.check)('userId').notEmpty().withMessage('UserId is required')
+const addCategoryValidator = [
+    (0, express_validator_1.check)('title', 'Title is required').not().isEmpty(),
+    (0, express_validator_1.check)('description', 'Description is required').not().isEmpty(),
+    (0, express_validator_1.check)('cover_image', 'Cover image URL is required').not().isEmpty(),
+    (0, express_validator_1.check)('cover_image', 'Cover image URL must be a valid URL').isURL()
 ];
-exports.getCategoryValidator = [
-    (0, express_validator_1.check)('id').isMongoId().withMessage('Invalid category ID')
-];
-exports.deleteCategoryValidator = [
-    (0, express_validator_1.check)('id').isMongoId().withMessage('Invalid category ID')
-];
+exports.addCategoryValidator = addCategoryValidator;
 //# sourceMappingURL=category.validators.js.map

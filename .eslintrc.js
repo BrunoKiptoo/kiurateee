@@ -15,7 +15,7 @@ module.exports = {
       "no-multi-spaces": "error",
       "space-in-parens": "error",
       "no-multiple-empty-lines": "error",
-      "prefer-const": "off",
+      "prefer-const": "off"
     },
   };
   

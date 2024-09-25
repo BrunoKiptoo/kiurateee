@@ -1,13 +1,13 @@
-import { Router } from 'express';
-import { createCategory, deleteAllCategories, deleteCategory, getCategories, getCategory } from '../controllers/category.controller';
-import { createCategoryValidator, deleteCategoryValidator, getCategoryValidator } from '../middlewares/validators/category.validators';
+import express from "express";
+import { validateApiKey } from "../config/api-key.config";
+import { validate } from "../middlewares/validate-request";
+import { addCategoryValidator } from "../middlewares/validators/category.validators";
+import { addCategory, getAllCategories, selectCategoriesAsUser } from "../controllers/category.controller";
 
-const router = Router();
+const router = express.Router();
 
-router.post('/new', createCategoryValidator, createCategory);
-router.get('/all', getCategories);
-router.get('/category/:id', getCategoryValidator, getCategory);
-router.delete('/category/:id', deleteCategoryValidator, deleteCategory);
-router.delete('/delete_all', deleteAllCategories);
+router.post("/add-category", validateApiKey, addCategoryValidator, validate, addCategory);
+router.get("/all", validateApiKey, getAllCategories);
+router.post("/select-categories", validateApiKey, selectCategoriesAsUser);
 
 export default router;

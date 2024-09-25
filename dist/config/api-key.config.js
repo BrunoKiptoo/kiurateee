@@ -1,11 +1,14 @@
-// import { NextFunction, Request, Response } from "express";
-// import { API_KEY } from "./env";
-// export const validateKey = (req: Request, res: Response, next: NextFunction) => {
-//   const apiKey = req.headers["x-api-key"];
-//   const appKey = API_KEY;
-//   if (!apiKey || apiKey !== appKey) {
-//     return res.status(401).json({ error: "Unauthorized" });
-//   }
-//   next();
-// };
+"use strict";
+//src/config/api-key.config.ts
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateApiKey = void 0;
+const env_1 = require("./env");
+const validateApiKey = (req, res, next) => {
+    const apiKey = req.headers["x-api-key"];
+    if (!apiKey || apiKey !== env_1.API_KEY) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+    next();
+};
+exports.validateApiKey = validateApiKey;
 //# sourceMappingURL=api-key.config.js.map

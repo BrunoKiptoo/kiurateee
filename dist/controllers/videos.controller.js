@@ -3,96 +3,80 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchVideos = exports.getMyVideos = exports.getVideos = exports.createVideo = void 0;
-const express_validator_1 = require("express-validator");
-const video_model_1 = __importDefault(require("../models/video.model"));
-const category_model_1 = __importDefault(require("../models/category.model"));
+exports.getAllVideos = exports.createVideo = void 0;
 const logger_1 = __importDefault(require("../utils/logger"));
+const video_model_1 = __importDefault(require("../models/video.model"));
+const category_model_1 = __importDefault(require("../models/category.model")); // Import the category model
 const createVideo = async (req, res) => {
+    const { videoId, source, category, date, videodata } = req.body;
     try {
-        const { videoId, source, category, userId, date, metadata } = (0, express_validator_1.matchedData)(req);
-        // Check if the category ID exists in the Category collection
-        const existingCategory = await category_model_1.default.findById(category);
-        if (!existingCategory) {
-            return res.status(404).json({ error: true, message: "Category not found", data: null });
+        // Check if the category exists
+        const categoryExists = await category_model_1.default.findById(category);
+        if (!categoryExists) {
+            logger_1.default.info(`Category not found for ID: ${category}`);
+            return res.status(404).json({ msg: "Category not found" });
         }
-        // Check if the userId exists in the User collection
-        // const existingUser = await User.findById(userId);
-        // if (!existingUser) {
-        //     return res.status(404).json({ error: true, message: "User not found", data: null });
-        // }
-        //
-        const newVideo = new video_model_1.default({ videoId, source, category, userId, date, metadata });
-        const video = await newVideo.save();
-        return res.status(201).json({ message: "Video created successfully", data: video });
+        // Create a new video
+        const newVideo = new video_model_1.default({
+            videoId,
+            source,
+            category,
+            date,
+            videodata,
+        });
+        // Save the video to the database
+        await newVideo.save();
+        // Optionally, you can also update the category to add this video to its videos array
+        await category_model_1.default.findByIdAndUpdate(category, {
+            $push: { videos: newVideo._id },
+        });
+        logger_1.default.info(`Video added with ID: ${videoId}`);
+        res.status(201).json({ msg: "Video added successfully", video: newVideo });
     }
-    catch (error) {
-        logger_1.default.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error creating video", data: null });
+    catch (err) {
+        logger_1.default.error(`Error adding video: ${err.message}`);
+        res.status(500).send("Server error");
     }
 };
 exports.createVideo = createVideo;
-const getVideos = async (req, res) => {
+const getAllVideos = async (req, res) => {
+    const { page = 1, limit = 10, search } = req.query;
+    const query = {};
+    // Apply search filters
+    if (search) {
+        const searchTerm = search.trim().toLowerCase();
+        query.$or = [
+            { "videodata.title": new RegExp(searchTerm, "i") },
+            { "videodata.author_name": new RegExp(searchTerm, "i") },
+            {
+                "category.title": new RegExp(searchTerm, "i"),
+            },
+        ];
+    }
     try {
-        console.log(req.headers);
-        const videos = await video_model_1.default.find();
-        return res.status(200).json({ message: "Videos retrieved successfully", data: videos });
+        // Get total count of matching videos
+        const total = await video_model_1.default.countDocuments(query).populate("category");
+        // Get the paginated results
+        const videos = await video_model_1.default.find(query)
+            .skip((Number(page) - 1) * Number(limit))
+            .limit(Number(limit))
+            .populate("category");
+        // Metadata for pagination
+        const metadata = {
+            total,
+            current_page: Number(page),
+            has_next_page: Number(page) * Number(limit) < total,
+            has_previous_page: Number(page) > 1,
+            next_page: Number(page) * Number(limit) < total ? Number(page) + 1 : null,
+            previous_page: Number(page) > 1 ? Number(page) - 1 : null,
+            last_page: Math.ceil(total / Number(limit)),
+        };
+        res.json({ videos, metadata });
     }
-    catch (error) {
-        logger_1.default.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error retrieving videos", data: null });
-    }
-};
-exports.getVideos = getVideos;
-const getMyVideos = async (req, res) => {
-    try {
-        const { userId } = req.params;
-        const videos = await video_model_1.default.find({ userId });
-        return res.status(200).json({ message: "User's videos retrieved successfully", data: videos });
-    }
-    catch (error) {
-        logger_1.default.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error retrieving user's videos", data: null });
-    }
-};
-exports.getMyVideos = getMyVideos;
-const searchVideos = async (req, res) => {
-    try {
-        const { query } = req.query;
-        // Validate the query parameter
-        if (!query) {
-            return res.status(400).json({ error: true, message: "Query parameter is required", data: null });
-        }
-        // Perform the search in MongoDB
-        const videos = await video_model_1.default.find({
-            $or: [
-                { 'metadata.author_name': new RegExp(query, 'i') },
-                { 'metadata.title': new RegExp(query, 'i') },
-                { 'category': await getCategoryIdsByTitle(query) } // Search by category title
-            ]
-        });
-        // Check if any videos were found
-        if (!videos || videos.length === 0) {
-            return res.status(404).json({ error: true, message: "No videos found for the query", data: null });
-        }
-        // Return successful response
-        return res.status(200).json({ message: "Videos found successfully", data: videos });
-    }
-    catch (error) {
-        // Log detailed error
-        logger_1.default.error(error);
-        // Return error response
-        return res.status(500).json({ error: true, message: error.message || "Error searching videos", data: null });
+    catch (err) {
+        logger_1.default.error(`Server error on fetching videos: ${err.message}`);
+        res.status(500).send("Server error");
     }
 };
-exports.searchVideos = searchVideos;
-//
-/**
- * Helper function to retrieve category IDs based on category title.
- * This function assumes category titles are unique.
- */
-const getCategoryIdsByTitle = async (title) => {
-    const categories = await category_model_1.default.find({ 'title': new RegExp(title, 'i') }, '_id');
-    return categories.map(category => category._id.toString());
-};
+exports.getAllVideos = getAllVideos;
 //# sourceMappingURL=videos.controller.js.map

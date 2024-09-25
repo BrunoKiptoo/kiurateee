@@ -1,13 +1,12 @@
-import { Router } from 'express';
-import { createVideo, getMyVideos, getVideos, searchVideos } from '../controllers/videos.controller';
-import { createVideoValidator } from '../middlewares/validators/video.validators';
-
+import { Router } from "express";
+import { validateApiKey } from "../config/api-key.config";
+import { videoValidator } from "../middlewares/validators/video.validators";
+import { validate } from "../middlewares/validate-request";
+import { createVideo, getAllVideos } from "../controllers/videos.controller";
 
 const router = Router();
 
-router.post('/new_video', createVideoValidator, createVideo);
-router.get('/all', getVideos);
-router.get('/my_videos/:userId', getMyVideos);
-router.get('/search', searchVideos);
+router.post("/video", validateApiKey, videoValidator, validate, createVideo);
+router.get("/all", validateApiKey, getAllVideos);
 
 export default router;

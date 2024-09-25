@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCallbackUrl = exports.getCountryCode = exports.getPaymentCurrency = exports.getPaystackHeaders = exports.passwordStrength = exports.comparePassword = exports.harshPassword = exports.PAGINATION = exports.BCRYPT_SALT = exports.appVersion = exports.APP_URLS = void 0;
+exports.getCountryCode = exports.getPaymentCurrency = exports.passwordStrength = exports.comparePassword = exports.harshPassword = exports.PAGINATION = exports.BCRYPT_SALT = exports.appVersion = exports.APP_URLS = void 0;
+//src/config/constants.ts
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const env_1 = require("../config/env");
 const countries_1 = __importDefault(require("./constants/countries"));
@@ -33,14 +34,6 @@ const passwordStrength = async (password) => {
     return lengthCheck && uppercaseCheck && lowercaseCheck && numberCheck && specialCharCheck;
 };
 exports.passwordStrength = passwordStrength;
-const getPaystackHeaders = async (country) => {
-    const headers = {
-        Authorization: `Bearer ${country === "nigeria" ? env_1.PAYSTACK_NG_SECRET_KEY : null}`,
-        "Content-Type": "application/json",
-    };
-    return headers;
-};
-exports.getPaystackHeaders = getPaystackHeaders;
 const getPaymentCurrency = async (country = "nigeria") => {
     return country === "kenya" ? "KES" : country === "ghana" ? "GHS" : "NGN";
 };
@@ -50,16 +43,4 @@ const getCountryCode = async (country) => {
     return { countryCode: requestCountry === null || requestCountry === void 0 ? void 0 : requestCountry.dialCode, currencyCode: requestCountry === null || requestCountry === void 0 ? void 0 : requestCountry.currencyCode };
 };
 exports.getCountryCode = getCountryCode;
-const getCallbackUrl = async (service, country = "nigeria") => {
-    let callbackUrl = "";
-    switch (service) {
-        case "kiurate_initiate_payment":
-            callbackUrl = `${exports.APP_URLS.baseApiURL}/api/v1/payments/verify_payment?country=${country}`;
-            break;
-        default:
-            break;
-    }
-    return callbackUrl;
-};
-exports.getCallbackUrl = getCallbackUrl;
 //# sourceMappingURL=constants.js.map

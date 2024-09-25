@@ -1,14 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createVideoValidator = void 0;
+exports.videoValidator = void 0;
 const express_validator_1 = require("express-validator");
-exports.createVideoValidator = [
-    (0, express_validator_1.check)('videoId').notEmpty().withMessage('VideoId is required'),
-    (0, express_validator_1.check)('source').notEmpty().withMessage('Source is required'),
-    (0, express_validator_1.check)('category').notEmpty().withMessage('Category is required').isMongoId().withMessage('Invalid Category ID'),
-    // check('thumbnail').notEmpty().withMessage('Thumbnail is required'),
-    // check('userId').notEmpty().withMessage('UserId is required').isMongoId().withMessage('Invalid User ID'),
-    (0, express_validator_1.check)('date').optional().isDate(),
-    (0, express_validator_1.check)('metadata').notEmpty().withMessage('Metadata is required')
+const videoValidator = [
+    (0, express_validator_1.check)('videoId', 'Video ID is required').not().isEmpty(),
+    (0, express_validator_1.check)('source', 'Source is required').not().isEmpty(),
+    (0, express_validator_1.check)('category', 'Category ID is required').not().isEmpty().isMongoId(),
+    (0, express_validator_1.check)('date', 'Invalid date format').optional().isISO8601(),
+    (0, express_validator_1.check)('videodata', 'Video data is required').not().isEmpty()
 ];
+exports.videoValidator = videoValidator;
 //# sourceMappingURL=video.validators.js.map

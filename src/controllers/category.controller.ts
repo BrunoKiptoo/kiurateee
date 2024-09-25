@@ -1,75 +1,119 @@
-import { Request, Response } from 'express';
-import { matchedData } from 'express-validator';
-import Category from '../models/category.model';
-import Logger from '../utils/logger';
+import { Request, Response } from "express";
+import Logger from "../utils/logger";
+import categoryModel from "../models/category.model";
+import { IMetadata } from "../interface/interfaces";
+import Category from "../models/category.model";
+import User from "../models/user.model";
 
-const createCategory = async (req: Request, res: Response) => {
-    try {
-        const { title, description, coverImage, userId } = matchedData(req);
+const addCategory = async (req: Request, res: Response) => {
+  const { title, description, cover_image } = req.body;
 
-        // Check if a category with the same title already exists
-        const existingCategory = await Category.findOne({ title });
-        if (existingCategory) {
-            return res.status(400).json({ error: true, message: "Category with this title already exists", data: null });
-        }
-
-        const newCategory = new Category({ title, description, coverImage, userId });
-        const category = await newCategory.save();
-        return res.status(201).json({ message: "Category created successfully", data: category });
-    } catch (error) {
-        Logger.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error creating category", data: null });
+  try {
+    // Check if a category with the same title already exists
+    const existingCategory = await categoryModel.findOne({ title });
+    if (existingCategory) {
+      Logger.info(`Category already exists: ${title}`);
+      return res.status(400).json({ msg: "Category already exists" });
     }
+
+    // Create a new category
+    const newCategory = new categoryModel({
+      title,
+      description,
+      cover_image,
+    });
+
+    // Save the category to the database
+    await newCategory.save();
+
+    Logger.info(`Category added: ${title}`);
+    res.status(201).json({ msg: "Category added successfully", category: newCategory });
+  } catch (err) {
+    Logger.error(`Error adding category: ${err.message}`);
+    res.status(500).send("Server error");
+  }
 };
 
-const getCategories = async (req: Request, res: Response) => {
-    try {
-        console.log(req.headers);
-        const categories = await Category.find();
-        return res.status(200).json({ message: "Categories retrieved successfully", data: categories });
-    } catch (error) {
-        Logger.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error retrieving categories", data: null });
-    }
+const getAllCategories = async (req: Request, res: Response) => {
+  const { page = 1, limit = 10, title } = req.query;
+
+  const query: any = {};
+
+  if (title) {
+    query.title = new RegExp(title as string, "i");
+  }
+
+  try {
+    const total = await Category.countDocuments(query);
+    const categories = await Category.find(query)
+      .skip((Number(page) - 1) * Number(limit))
+      .limit(Number(limit))
+      .populate("videos"); // Populate videos field
+
+    const metadata: IMetadata = {
+      total,
+      current_page: Number(page),
+      has_next_page: Number(page) * Number(limit) < total,
+      has_previous_page: Number(page) > 1,
+      next_page: Number(page) * Number(limit) < total ? Number(page) + 1 : null,
+      previous_page: Number(page) > 1 ? Number(page) - 1 : null,
+      last_page: Math.ceil(total / Number(limit)),
+    };
+
+    res.json({ categories, metadata });
+  } catch (err) {
+    Logger.error(`Server error on fetching categories: ${err.message}`);
+    res.status(500).send("Server error");
+  }
 };
 
-const getCategory = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const category = await Category.findById(id);
-        if (!category) {
-            return res.status(404).json({ error: true, message: "Category not found", data: null });
-        }
-        return res.status(200).json({ message: "Category retrieved successfully", data: category });
-    } catch (error) {
-        Logger.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error retrieving category", data: null });
+const selectCategoriesAsUser = async (req: Request, res: Response) => {
+  const { userId, categories } = req.body;
+
+  try {
+    // Validate user existence
+    const user = await User.findById(userId).populate({
+      path: "selectedCategories",
+      populate: {
+        path: "videos", // This will populate videos for each category
+        model: "Video", // Model name for the video
+      },
+    });
+
+    if (!user) {
+      Logger.info(`User not found for ID: ${userId}`);
+      return res.status(404).json({ msg: "User not found" });
     }
+
+    // Validate category existence
+    const existingCategories = await Category.find({ _id: { $in: categories } });
+    if (existingCategories.length !== categories.length) {
+      Logger.info(`One or more categories not found`);
+      return res.status(404).json({ msg: "One or more categories not found" });
+    }
+
+    // Update user's selected categories
+    user.selectedCategories = categories;
+    await user.save();
+
+    // Populate categories with videos
+    const populatedCategories = await Category.find({ _id: { $in: categories } }).populate({
+      path: "videos",
+      model: "Video",
+    });
+
+    Logger.info(`Categories updated for user ID: ${userId}`);
+    res.status(200).json({
+      msg: "Categories updated successfully",
+      user: {
+        ...user.toObject(),
+        selectedCategories: populatedCategories,
+      },
+    });
+  } catch (err) {
+    Logger.error(`Error updating categories: ${err.message}`);
+    res.status(500).send("Server error");
+  }
 };
 
-const deleteCategory = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const category = await Category.findByIdAndDelete(id);
-        if (!category) {
-            return res.status(404).json({ error: true, message: "Category not found", data: null });
-        }
-        return res.status(200).json({ message: "Category deleted successfully", data: category });
-    } catch (error) {
-        Logger.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error deleting category", data: null });
-    }
-};
-
-const deleteAllCategories = async (req: Request, res: Response) => {
-    try {
-        console.log(req.headers);
-        await Category.deleteMany();
-        return res.status(200).json({ message: "All categories deleted successfully", data: null });
-    } catch (error) {
-        Logger.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error deleting categories", data: null });
-    }
-};
-
-export { createCategory, getCategories, getCategory, deleteCategory, deleteAllCategories };
+export { addCategory, getAllCategories, selectCategoriesAsUser };

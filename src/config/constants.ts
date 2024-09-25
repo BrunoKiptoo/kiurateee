@@ -1,5 +1,6 @@
+//src/config/constants.ts
 import bcrypt from "bcryptjs";
-import { PAYSTACK_NG_SECRET_KEY, baseApiURL } from "../config/env";
+import { baseApiURL } from "../config/env";
 import countries from "./constants/countries";
 
 export const APP_URLS = {
@@ -33,14 +34,6 @@ export const passwordStrength = async (password: string) => {
   return lengthCheck && uppercaseCheck && lowercaseCheck && numberCheck && specialCharCheck;
 };
 
-export const getPaystackHeaders = async (country: string) => {
-  const headers = {
-    Authorization: `Bearer ${country === "nigeria" ? PAYSTACK_NG_SECRET_KEY : null}`,
-    "Content-Type": "application/json",
-  };
-  return headers;
-};
-
 export const getPaymentCurrency = async (country = "nigeria") => {
   return country === "kenya" ? "KES" : country === "ghana" ? "GHS" : "NGN";
 };
@@ -48,16 +41,4 @@ export const getPaymentCurrency = async (country = "nigeria") => {
 export const getCountryCode = async (country: string) => {
   const requestCountry = countries.find((c) => c.name.toLowerCase() === country.toLowerCase());
   return { countryCode: requestCountry?.dialCode, currencyCode: requestCountry?.currencyCode };
-};
-
-export const getCallbackUrl = async (service: string, country = "nigeria"): Promise<string> => {
-  let callbackUrl = "";
-  switch (service) {
-    case "kiurate_initiate_payment":
-      callbackUrl = `${APP_URLS.baseApiURL}/api/v1/payments/verify_payment?country=${country}`;
-      break;
-    default:
-      break;
-  }
-  return callbackUrl;
 };

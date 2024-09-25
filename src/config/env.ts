@@ -1,3 +1,5 @@
+//src/config/env.ts
+
 import dotenv from "dotenv";
 import { IEnv } from "../interface/interfaces";
 
@@ -12,50 +14,44 @@ export const baseApiURL = process.env.BASE_API_URL;
 export const mongoURI = process.env.MONGO_URI;
 
 // API KEY
-// export const API_KEY = process.env.API_KEY;
+export const API_KEY = process.env.API_KEY;
 
 // MAILGUN
 // export const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY;
 // export const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN;
 
 // PAYSTACK
-export const PAYSTACK_NG_SECRET_KEY = process.env.PAYSTACK_NG_SECRET_KEY;
+// export const PAYSTACK_NG_SECRET_KEY = process.env.PAYSTACK_NG_SECRET_KEY;
 
 // AUTHENTICATION
-const AUTH_TOKEN_SECRET = process.env.AUTH_TOKEN_SECRET;
-const ACCESS_TOKEN_EXPIRY = process.env.AUTH_ACCESS_TOKEN_EXPIRY;
-const REFRESH_TOKEN_EXPIRY = process.env.AUTH_REFRESH_TOKEN_EXPIRY;
-
-export const TOKENS = {
-  auth_token_secret: AUTH_TOKEN_SECRET,
-  access_token_expiry: ACCESS_TOKEN_EXPIRY,
-  refresh_token_expiry: REFRESH_TOKEN_EXPIRY,
-};
+export const JWT_SECRET = process.env.JWT_SECRET as string;
+export const ACCESS_TOKEN_EXPIRY = process.env.AUTH_ACCESS_TOKEN_EXPIRY as string;
+export const REFRESH_TOKEN_EXPIRY = process.env.AUTH_REFRESH_TOKEN_EXPIRY as string;
 
 // INFOBIP
 // export const INFOBIP_KEY = process.env.INFOBIP_API_KEY;
 // export const INFOBIP_BASE_URL = process.env.INFOBIP_API_BASE_URL;
 
 // AWS Configuration
-// export const bucketName = process.env.AWS_BUCKET_NAME;
-// export const accessKey = process.env.AWS_ACCESS_KEY;
-// export const secretKey = process.env.AWS_SECRET_KEY;
+export const bucketName = process.env.AWS_BUCKET_NAME;
+export const accessKey = process.env.AWS_ACCESS_KEY;
+export const secretKey = process.env.AWS_SECRET_KEY;
 
 (() => {
   const requiredEnvs: IEnv = {
     nodeEnv,
-    mongoURI,
+    // mongoURI,
     baseApiURL,
     // MAILGUN_API_KEY,
     // MAILGUN_DOMAIN,
-    PAYSTACK_NG_SECRET_KEY,
-    // API_KEY,
-    AUTH_TOKEN_SECRET,
+    // PAYSTACK_NG_SECRET_KEY,
+    API_KEY,
+    JWT_SECRET,
     ACCESS_TOKEN_EXPIRY,
     REFRESH_TOKEN_EXPIRY,
-    // bucketName,
-    // accessKey,
-    // secretKey,
+    bucketName,
+    accessKey,
+    secretKey,
   };
 
   const missing = Object.keys(requiredEnvs)

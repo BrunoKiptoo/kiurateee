@@ -3,80 +3,105 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAllCategories = exports.deleteCategory = exports.getCategory = exports.getCategories = exports.createCategory = void 0;
-const express_validator_1 = require("express-validator");
-const category_model_1 = __importDefault(require("../models/category.model"));
+exports.selectCategoriesAsUser = exports.getAllCategories = exports.addCategory = void 0;
 const logger_1 = __importDefault(require("../utils/logger"));
-const createCategory = async (req, res) => {
+const category_model_1 = __importDefault(require("../models/category.model"));
+const category_model_2 = __importDefault(require("../models/category.model"));
+const user_model_1 = __importDefault(require("../models/user.model"));
+const addCategory = async (req, res) => {
+    const { title, description, cover_image } = req.body;
     try {
-        const { title, description, coverImage, userId } = (0, express_validator_1.matchedData)(req);
         // Check if a category with the same title already exists
         const existingCategory = await category_model_1.default.findOne({ title });
         if (existingCategory) {
-            return res.status(400).json({ error: true, message: "Category with this title already exists", data: null });
+            logger_1.default.info(`Category already exists: ${title}`);
+            return res.status(400).json({ msg: "Category already exists" });
         }
-        const newCategory = new category_model_1.default({ title, description, coverImage, userId });
-        const category = await newCategory.save();
-        return res.status(201).json({ message: "Category created successfully", data: category });
+        // Create a new category
+        const newCategory = new category_model_1.default({
+            title,
+            description,
+            cover_image,
+        });
+        // Save the category to the database
+        await newCategory.save();
+        logger_1.default.info(`Category added: ${title}`);
+        res.status(201).json({ msg: "Category added successfully", category: newCategory });
     }
-    catch (error) {
-        logger_1.default.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error creating category", data: null });
-    }
-};
-exports.createCategory = createCategory;
-const getCategories = async (req, res) => {
-    try {
-        console.log(req.headers);
-        const categories = await category_model_1.default.find();
-        return res.status(200).json({ message: "Categories retrieved successfully", data: categories });
-    }
-    catch (error) {
-        logger_1.default.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error retrieving categories", data: null });
+    catch (err) {
+        logger_1.default.error(`Error adding category: ${err.message}`);
+        res.status(500).send("Server error");
     }
 };
-exports.getCategories = getCategories;
-const getCategory = async (req, res) => {
+exports.addCategory = addCategory;
+const getAllCategories = async (req, res) => {
+    const { page = 1, limit = 10, title } = req.query;
+    const query = {};
+    if (title) {
+        query.title = new RegExp(title, "i");
+    }
     try {
-        const { id } = req.params;
-        const category = await category_model_1.default.findById(id);
-        if (!category) {
-            return res.status(404).json({ error: true, message: "Category not found", data: null });
+        const total = await category_model_2.default.countDocuments(query);
+        const categories = await category_model_2.default.find(query)
+            .skip((Number(page) - 1) * Number(limit))
+            .limit(Number(limit))
+            .populate("videos"); // Populate videos field
+        const metadata = {
+            total,
+            current_page: Number(page),
+            has_next_page: Number(page) * Number(limit) < total,
+            has_previous_page: Number(page) > 1,
+            next_page: Number(page) * Number(limit) < total ? Number(page) + 1 : null,
+            previous_page: Number(page) > 1 ? Number(page) - 1 : null,
+            last_page: Math.ceil(total / Number(limit)),
+        };
+        res.json({ categories, metadata });
+    }
+    catch (err) {
+        logger_1.default.error(`Server error on fetching categories: ${err.message}`);
+        res.status(500).send("Server error");
+    }
+};
+exports.getAllCategories = getAllCategories;
+const selectCategoriesAsUser = async (req, res) => {
+    const { userId, categories } = req.body;
+    try {
+        // Validate user existence
+        const user = await user_model_1.default.findById(userId).populate({
+            path: "selectedCategories",
+            populate: {
+                path: "videos", // This will populate videos for each category
+                model: "Video", // Model name for the video
+            },
+        });
+        if (!user) {
+            logger_1.default.info(`User not found for ID: ${userId}`);
+            return res.status(404).json({ msg: "User not found" });
         }
-        return res.status(200).json({ message: "Category retrieved successfully", data: category });
-    }
-    catch (error) {
-        logger_1.default.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error retrieving category", data: null });
-    }
-};
-exports.getCategory = getCategory;
-const deleteCategory = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const category = await category_model_1.default.findByIdAndDelete(id);
-        if (!category) {
-            return res.status(404).json({ error: true, message: "Category not found", data: null });
+        // Validate category existence
+        const existingCategories = await category_model_2.default.find({ _id: { $in: categories } });
+        if (existingCategories.length !== categories.length) {
+            logger_1.default.info(`One or more categories not found`);
+            return res.status(404).json({ msg: "One or more categories not found" });
         }
-        return res.status(200).json({ message: "Category deleted successfully", data: category });
+        // Update user's selected categories
+        user.selectedCategories = categories;
+        await user.save();
+        // Populate categories with videos
+        const populatedCategories = await category_model_2.default.find({ _id: { $in: categories } }).populate({
+            path: "videos",
+            model: "Video",
+        });
+        logger_1.default.info(`Categories updated for user ID: ${userId}`);
+        res.status(200).json({
+            msg: "Categories updated successfully",
+            user: Object.assign(Object.assign({}, user.toObject()), { selectedCategories: populatedCategories }),
+        });
     }
-    catch (error) {
-        logger_1.default.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error deleting category", data: null });
+    catch (err) {
+        logger_1.default.error(`Error updating categories: ${err.message}`);
+        res.status(500).send("Server error");
     }
 };
-exports.deleteCategory = deleteCategory;
-const deleteAllCategories = async (req, res) => {
-    try {
-        console.log(req.headers);
-        await category_model_1.default.deleteMany();
-        return res.status(200).json({ message: "All categories deleted successfully", data: null });
-    }
-    catch (error) {
-        logger_1.default.error(error);
-        return res.status(500).json({ error: true, message: error.message || "Error deleting categories", data: null });
-    }
-};
-exports.deleteAllCategories = deleteAllCategories;
+exports.selectCategoriesAsUser = selectCategoriesAsUser;
 //# sourceMappingURL=category.controller.js.map
