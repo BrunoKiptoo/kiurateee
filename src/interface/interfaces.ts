@@ -66,6 +66,7 @@ export interface IVideo extends Document {
   category: Schema.Types.ObjectId;
   date: Date;
   videodata: IVideodata;
+  user_id: Schema.Types.ObjectId;
 }
 
 export interface IFolder extends Document {

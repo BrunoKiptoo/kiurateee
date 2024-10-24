@@ -2,36 +2,45 @@ import { Request, Response } from "express";
 import Logger from "../utils/logger";
 import Video from "../models/video.model";
 import Category from "../models/category.model"; // Import the category model
+import User from "../models/user.model";
 
 const createVideo = async (req: Request, res: Response) => {
-  const { videoId, source, category, date, videodata } = req.body;
+  const { videoId, source, category, date, videodata, userId } = req.body;
 
   try {
-    // Check if the category exists
+    // Validate user existence
+    const user = await User.findById(userId);
+    if (!user) {
+      Logger.info(`User not found for ID: ${userId}`);
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Validate category existence
     const categoryExists = await Category.findById(category);
     if (!categoryExists) {
       Logger.info(`Category not found for ID: ${category}`);
       return res.status(404).json({ msg: "Category not found" });
     }
 
-    // Create a new video
+    // Create a new video associated with the user
     const newVideo = new Video({
       videoId,
       source,
       category,
       date,
       videodata,
+      user: userId, // Associate the video with the userId from req.body
     });
 
     // Save the video to the database
     await newVideo.save();
 
-    // Optionally, you can also update the category to add this video to its videos array
+    // Optionally, update the category to add this video to its videos array
     await Category.findByIdAndUpdate(category, {
       $push: { videos: newVideo._id },
     });
 
-    Logger.info(`Video added with ID: ${videoId}`);
+    Logger.info(`Video added with ID: ${videoId} by user: ${userId}`);
     res.status(201).json({ msg: "Video added successfully", video: newVideo });
   } catch (err) {
     Logger.error(`Error adding video: ${err.message}`);
@@ -40,9 +49,21 @@ const createVideo = async (req: Request, res: Response) => {
 };
 
 const getAllVideos = async (req: Request, res: Response) => {
-  const { page = 1, limit = 10, search } = req.query;
+  const { page = 1, limit = 10, search, userId, tag } = req.query;
 
   const query: any = {};
+
+  // Apply user filters: Either by userId or tag
+  if (userId) {
+    query.user = userId;
+  } else if (tag) {
+    const user = await User.findOne({ tag });
+    if (user) {
+      query.user = user._id;
+    } else {
+      return res.status(404).json({ msg: "User with the provided tag not found" });
+    }
+  }
 
   // Apply search filters
   if (search) {

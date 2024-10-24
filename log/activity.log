@@ -1,0 +1,221 @@
+2024-10-17 12:55:57:5557 info: User with tag @Zamani already exists.
+2024-10-17 12:55:57:5557 info: ::1 - - [17/Oct/2024:09:55:57 +0000] "POST /api/v1/auth/register HTTP/1.1" 400 43 "-" "PostmanRuntime/7.39.0"
+
+2024-10-17 12:57:21:5721 info: User Bruno Zamani registered successfully.
+2024-10-17 12:57:21:5721 info: ::1 - - [17/Oct/2024:09:57:21 +0000] "POST /api/v1/auth/register HTTP/1.1" 200 168 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 10:50:21:5021 info: ::1 - - [18/Oct/2024:07:50:21 +0000] "POST /api/v1/folders/new HTTP/1.1" 400 193 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 10:51:59:5159 info: User not found for ID: undefined
+2024-10-18 10:51:59:5159 info: ::1 - - [18/Oct/2024:07:51:59 +0000] "POST /api/v1/categories/select-categories HTTP/1.1" 404 24 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 10:52:41:5241 info: ::1 - - [18/Oct/2024:07:52:41 +0000] "POST /api/v1/categories/add-category HTTP/1.1" 400 142 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 10:57:20:5720 info: ::1 - - [18/Oct/2024:07:57:20 +0000] "POST /api/v1/categories/all HTTP/1.1" 404 84 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 10:57:24:5724 info: ::1 - - [18/Oct/2024:07:57:24 +0000] "GET /api/v1/categories/all HTTP/1.1" 200 549 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 11:00:12:012 info: ::1 - - [18/Oct/2024:08:00:12 +0000] "GET /api/v1/categories/all HTTP/1.1" 200 883 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 11:05:49:549 info: ::1 - - [18/Oct/2024:08:05:49 +0000] "GET /api/v1/categories/all HTTP/1.1" 200 2037 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 11:07:40:740 info: User not found for ID: undefined
+2024-10-18 11:07:40:740 info: ::1 - - [18/Oct/2024:08:07:40 +0000] "POST /api/v1/categories/select-categories HTTP/1.1" 404 24 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 11:08:22:822 info: ::1 - - [18/Oct/2024:08:08:22 +0000] "GET /api/v1/categories/all HTTP/1.1" 200 2037 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 11:08:29:829 info: ::1 - - [18/Oct/2024:08:08:29 +0000] "GET /api/v1/categories/select-categories HTTP/1.1" 404 97 "-" "PostmanRuntime/7.39.0"
+
+2024-10-18 11:11:31:1131 info: ::1 - - [18/Oct/2024:08:11:31 +0000] "GET /api/v1/categories/all HTTP/1.1" 200 2037 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 10:05:35:535 info: ::1 - - [24/Oct/2024:07:05:35 +0000] "POST /api/v1/videos/video HTTP/1.1" 401 24 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 10:06:02:62 info: ::1 - - [24/Oct/2024:07:06:02 +0000] "POST /api/v1/videos/video HTTP/1.1" 400 167 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 10:32:10:3210 info: ::1 - - [24/Oct/2024:07:32:10 +0000] "POST /api/v1/videos/video HTTP/1.1" 400 198 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 10:33:24:3324 info: Video added with ID: 12345 by user: 67114a33c3f23a6cb613622d
+2024-10-24 10:33:24:3324 info: ::1 - - [24/Oct/2024:07:33:24 +0000] "POST /api/v1/videos/video HTTP/1.1" 201 617 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 10:35:32:3532 info: ::1 - - [24/Oct/2024:07:35:32 +0000] "GET / HTTP/1.1" 404 68 "-" "WhatsApp/2.23.20.0"
+
+2024-10-24 10:41:39:4139 info: ::1 - - [24/Oct/2024:07:41:39 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 400 79 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 10:42:11:4211 info: ::1 - - [24/Oct/2024:07:42:11 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 500 420 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 10:52:13:5213 info: ::1 - - [24/Oct/2024:07:52:13 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 500 420 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 11:13:49:1349 info: ::1 - - [24/Oct/2024:08:13:49 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 500 420 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 11:16:28:1628 info: ::1 - - [24/Oct/2024:08:16:28 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 500 420 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 11:22:38:2238 info: ::1 - - [24/Oct/2024:08:22:38 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 500 420 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 11:33:13:3313 info: ::1 - - [24/Oct/2024:08:33:13 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 500 420 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 11:33:43:3343 info: ::1 - - [24/Oct/2024:08:33:43 +0000] "GET /api/v1/videos/all?videoId=12345 HTTP/1.1" 200 2645 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:34:26:3426 info: ::1 - - [24/Oct/2024:08:34:26 +0000] "POST /api/v1/auth/users HTTP/1.1" 404 80 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:34:31:3431 info: ::1 - - [24/Oct/2024:08:34:31 +0000] "GET /api/v1/auth/users HTTP/1.1" 401 24 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:34:36:3436 info: ::1 - - [24/Oct/2024:08:34:36 +0000] "GET /api/v1/auth/users HTTP/1.1" 200 971 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:35:07:357 info: User with mobile number 0701580530 logged in successfully.
+2024-10-24 11:35:07:357 info: ::1 - - [24/Oct/2024:08:35:07 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 137 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:35:24:3524 info: ::1 - - [24/Oct/2024:08:35:24 +0000] "POST /api/v1/auth/users HTTP/1.1" 404 80 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:35:45:3545 info: ::1 - - [24/Oct/2024:08:35:45 +0000] "GET /api/v1/auth/users/all HTTP/1.1" 404 83 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:35:49:3549 info: ::1 - - [24/Oct/2024:08:35:49 +0000] "GET /api/v1/auth/users HTTP/1.1" 200 971 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:36:01:361 info: ::1 - - [24/Oct/2024:08:36:01 +0000] "GET /api/v1/videos/all HTTP/1.1" 200 2645 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:36:36:3636 info: ::1 - - [24/Oct/2024:08:36:36 +0000] "POST /api/v1/video HTTP/1.1" 404 75 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:36:47:3647 info: Video added with ID: 12345 by user: 67114a33c3f23a6cb613622d
+2024-10-24 11:36:47:3647 info: ::1 - - [24/Oct/2024:08:36:47 +0000] "POST /api/v1/videos/video HTTP/1.1" 201 617 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:37:00:370 info: ::1 - - [24/Oct/2024:08:37:00 +0000] "POST /api/v1/videos/all HTTP/1.1" 404 80 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:37:05:375 info: ::1 - - [24/Oct/2024:08:37:05 +0000] "GET /api/v1/videos/all HTTP/1.1" 200 3724 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:41:51:4151 info: Video added with ID: 12345 by user: 67114a33c3f23a6cb613622d
+2024-10-24 11:41:51:4151 info: ::1 - - [24/Oct/2024:08:41:51 +0000] "POST /api/v1/videos/video HTTP/1.1" 201 644 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:41:59:4159 info: ::1 - - [24/Oct/2024:08:41:59 +0000] "POST /api/v1/videos/all HTTP/1.1" 404 80 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:42:04:424 info: ::1 - - [24/Oct/2024:08:42:04 +0000] "GET /api/v1/videos/all HTTP/1.1" 200 4884 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:43:22:4322 info: ::1 - - [24/Oct/2024:08:43:22 +0000] "GET /api/v1/auth/users?userId=67114a33c3f23a6cb613622d HTTP/1.1" 200 971 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:51:50:5150 info: ::1 - - [24/Oct/2024:08:51:50 +0000] "GET /api/v1/auth/users?tag=moriasi HTTP/1.1" 200 577 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:52:03:523 info: ::1 - - [24/Oct/2024:08:52:03 +0000] "GET /api/v1/videos/all?tag=moriasi HTTP/1.1" 404 46 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:52:17:5217 info: ::1 - - [24/Oct/2024:08:52:17 +0000] "GET /api/v1/videos/all?tag=Zamani HTTP/1.1" 404 46 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:52:30:5230 info: ::1 - - [24/Oct/2024:08:52:30 +0000] "GET /api/v1/videos/all?tag=Zamani HTTP/1.1" 404 46 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:52:41:5241 info: ::1 - - [24/Oct/2024:08:52:41 +0000] "GET /api/v1/videos/all? HTTP/1.1" 200 4884 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:53:03:533 info: ::1 - - [24/Oct/2024:08:53:03 +0000] "GET /api/v1/videos/all?id=67189ca7c9596f05b29e09c5 HTTP/1.1" 200 4884 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:53:10:5310 info: ::1 - - [24/Oct/2024:08:53:10 +0000] "GET /api/v1/videos/all?_id=67189ca7c9596f05b29e09c5 HTTP/1.1" 200 4884 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:54:17:5417 info: ::1 - - [24/Oct/2024:08:54:17 +0000] "GET /api/v1/videos/all?title=Sa HTTP/1.1" 400 91 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:57:23:5723 info: ::1 - - [24/Oct/2024:08:57:23 +0000] "GET /api/v1/videos/all?title=Sa HTTP/1.1" 400 91 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:57:36:5736 info: ::1 - - [24/Oct/2024:08:57:36 +0000] "GET /api/v1/videos/all?title=Sa HTTP/1.1" 200 4884 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:57:45:5745 info: ::1 - - [24/Oct/2024:08:57:45 +0000] "GET /api/v1/videos/all?title=Samp HTTP/1.1" 200 4884 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:58:12:5812 info: ::1 - - [24/Oct/2024:08:58:12 +0000] "GET /api/v1/videos/all?title=Samp HTTP/1.1" 200 4884 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 11:58:20:5820 info: ::1 - - [24/Oct/2024:08:58:20 +0000] "GET /api/v1/videos/all?videotitle=Samp HTTP/1.1" 200 4884 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:05:53:553 info: ::1 - - [24/Oct/2024:09:05:53 +0000] "GET /api/v1/auth/users HTTP/1.1" 200 971 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:07:40:740 info: ::1 - - [24/Oct/2024:09:07:40 +0000] "GET /api/v1/auth/users HTTP/1.1" 200 971 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:11:09:119 info: ::1 - - [24/Oct/2024:09:11:09 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 400 82 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:20:45:2045 info: ::1 - - [24/Oct/2024:09:20:45 +0000] "POST /api/v1/videos/video HTTP/1.1" 400 61 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:21:37:2137 info: ::1 - - [24/Oct/2024:09:21:37 +0000] "POST /api/v1/videos/video HTTP/1.1" 400 61 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:23:21:2321 info: Video added with ID: IfwO_gfpOSc by user: 6710e1e3a3d9e371143f42ad
+2024-10-24 12:23:21:2321 info: ::1 - - [24/Oct/2024:09:23:21 +0000] "POST /api/v1/videos/video HTTP/1.1" 201 667 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:23:57:2357 info: Video added with ID: IfwO_gfpOSc by user: 6710e1e3a3d9e371143f42ad
+2024-10-24 12:23:57:2357 info: ::1 - - [24/Oct/2024:09:23:57 +0000] "POST /api/v1/videos/video HTTP/1.1" 201 667 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:24:03:243 info: ::1 - - [24/Oct/2024:09:24:03 +0000] "POST /api/v1/videos/all HTTP/1.1" 404 80 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:24:08:248 info: ::1 - - [24/Oct/2024:09:24:08 +0000] "GET /api/v1/videos/all HTTP/1.1" 200 1121 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:24:13:2413 info: ::1 - - [24/Oct/2024:09:24:13 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 400 82 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:27:05:275 info: ::1 - - [24/Oct/2024:09:27:05 +0000] "GET /api/v1/auth/users HTTP/1.1" 200 971 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:29:16:2916 info: ::1 - - [24/Oct/2024:09:29:16 +0000] "POST /api/v1/auth/login HTTP/1.1" 401 24 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:29:22:2922 info: ::1 - - [24/Oct/2024:09:29:22 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 107 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:29:40:2940 info: Video added with ID: IfwO_gfpOSc by user: 67114a33c3f23a6cb613622d
+2024-10-24 12:29:40:2940 info: ::1 - - [24/Oct/2024:09:29:40 +0000] "POST /api/v1/videos/video HTTP/1.1" 201 871 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:29:49:2949 info: User with mobile number 0701800481 logged in successfully.
+2024-10-24 12:29:49:2949 info: ::1 - - [24/Oct/2024:09:29:49 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 133 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:30:03:303 info: ::1 - - [24/Oct/2024:09:30:03 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 400 82 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:33:39:3339 info: ::1 - - [24/Oct/2024:09:33:39 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 42 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:34:52:3452 info: ::1 - - [24/Oct/2024:09:34:52 +0000] "POST /api/v1/auth/users?tag=moriasix HTTP/1.1" 404 93 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:34:53:3453 info: ::1 - - [24/Oct/2024:09:34:53 +0000] "POST /api/v1/auth/users?tag=moriasi HTTP/1.1" 404 92 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:34:57:3457 info: ::1 - - [24/Oct/2024:09:34:57 +0000] "GET /api/v1/auth/users?tag=moriasi HTTP/1.1" 200 577 "-" "PostmanRuntime/7.42.0"
+
+2024-10-24 12:44:47:4447 info: ::1 - - [24/Oct/2024:09:44:47 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:44:49:4449 info: ::1 - - [24/Oct/2024:09:44:49 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:44:58:4458 info: ::1 - - [24/Oct/2024:09:44:58 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 403 9 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:48:40:4840 info: ::1 - - [24/Oct/2024:09:48:40 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 42 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:49:09:499 info: User with mobile number 0701800481 logged in successfully.
+2024-10-24 12:49:09:499 info: ::1 - - [24/Oct/2024:09:49:09 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 133 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:49:14:4914 info: ::1 - - [24/Oct/2024:09:49:14 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 42 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:51:08:518 info: ::1 - - [24/Oct/2024:09:51:08 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 200 45 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:54:01:541 info: ::1 - - [24/Oct/2024:09:54:01 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 42 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 12:56:16:5616 info: ::1 - - [24/Oct/2024:09:56:16 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 13:00:07:07 info: ::1 - - [24/Oct/2024:10:00:07 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 13:00:08:08 info: ::1 - - [24/Oct/2024:10:00:08 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 16:32:48:3248 info: ::1 - - [24/Oct/2024:13:32:48 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 16:32:50:3250 info: ::1 - - [24/Oct/2024:13:32:50 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 16:32:51:3251 info: ::1 - - [24/Oct/2024:13:32:51 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 16:36:08:368 info: ::1 - - [24/Oct/2024:13:36:08 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 16:36:30:3630 info: ::1 - - [24/Oct/2024:13:36:30 +0000] "POST /api/v1/auth/follow/6710e1e3a3d9e371143f42ad HTTP/1.1" 401 12 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 16:48:11:4811 info: ::1 - - [24/Oct/2024:13:48:11 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 400 79 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 16:48:34:4834 info: ::1 - - [24/Oct/2024:13:48:34 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 500 420 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:03:27:327 info: ::1 - - [24/Oct/2024:14:03:27 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 400 79 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:03:32:332 info: ::1 - - [24/Oct/2024:14:03:32 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 200 44 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:09:34:934 info: ::1 - - [24/Oct/2024:14:09:34 +0000] "POST /api/v1/auth/unfollow/67114a33c3f23a6cb613622d HTTP/1.1" 200 46 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:10:35:1035 info: ::1 - - [24/Oct/2024:14:10:35 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 200 44 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:11:19:1119 info: ::1 - - [24/Oct/2024:14:11:19 +0000] "GET /api/v1/auth/following/67114a33c3f23a6cb613622d HTTP/1.1" 200 232 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:13:19:1319 info: ::1 - - [24/Oct/2024:14:13:19 +0000] "GET /api/v1/auth/followers/67114a33c3f23a6cb613622d HTTP/1.1" 200 156 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:29:11:2911 info: Follow request initiated: User 67114a33c3f23a6cb613622d wants to follow User 6710e1e3a3d9e371143f42ad
+2024-10-24 17:29:11:2911 warn: User 67114a33c3f23a6cb613622d is already following User 6710e1e3a3d9e371143f42ad
+2024-10-24 17:29:11:2911 info: ::1 - - [24/Oct/2024:14:29:11 +0000] "POST /api/v1/auth/follow/67114a33c3f23a6cb613622d HTTP/1.1" 400 41 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:29:46:2946 info: ::1 - - [24/Oct/2024:14:29:46 +0000] "POST /api/v1/auth/unfollow/67114a33c3f23a6cb613622d HTTP/1.1" 400 83 "-" "PostmanRuntime/7.39.0"
+
+2024-10-24 17:30:06:306 info: Unfollow request initiated: User 67114a33c3f23a6cb613622d wants to unfollow User 6710e1e3a3d9e371143f42ad
+2024-10-24 17:30:06:306 info: User 67114a33c3f23a6cb613622d successfully unfollowed User 6710e1e3a3d9e371143f42ad
+2024-10-24 17:30:06:306 info: ::1 - - [24/Oct/2024:14:30:06 +0000] "POST /api/v1/auth/unfollow/67114a33c3f23a6cb613622d HTTP/1.1" 200 46 "-" "PostmanRuntime/7.39.0"
+

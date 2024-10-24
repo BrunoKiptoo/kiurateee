@@ -316,58 +316,87 @@ const followUser = async (req, res) => {
     const { userIdToFollow } = req.body;
     const { userId } = req.params;
     try {
-        // Convert string IDs to ObjectId
-        const userToFollow = await user_model_1.default.findById(new mongoose_1.default.Types.ObjectId(userIdToFollow));
-        const currentUser = await user_model_1.default.findById(new mongoose_1.default.Types.ObjectId(userId));
+        logger_1.default.info(`Follow request initiated: User ${userId} wants to follow User ${userIdToFollow}`);
+        // Ensure both user IDs are valid ObjectId instances
+        if (!mongoose_1.default.Types.ObjectId.isValid(userIdToFollow) || !mongoose_1.default.Types.ObjectId.isValid(userId)) {
+            logger_1.default.warn(`Invalid user IDs: userIdToFollow: ${userIdToFollow}, userId: ${userId}`);
+            return res.status(400).json({ message: "Invalid user IDs" });
+        }
+        // Fetch both users
+        const userToFollow = await user_model_1.default.findById(userIdToFollow);
+        const currentUser = await user_model_1.default.findById(userId);
+        // Check if the users exist
         if (!userToFollow || !currentUser) {
+            logger_1.default.warn(`User not found: userIdToFollow: ${userIdToFollow}, userId: ${userId}`);
             return res.status(404).json({ message: "User not found" });
         }
+        // Prevent self-follow
+        if (userId === userIdToFollow) {
+            logger_1.default.warn(`User ${userId} attempted to follow themselves.`);
+            return res.status(400).json({ message: "You cannot follow yourself" });
+        }
         // Check if already following
-        console.log(typeof currentUser.following);
-        if (currentUser.following.some((id) => id === new mongoose_1.default.Schema.Types.ObjectId(userIdToFollow))) {
+        const isAlreadyFollowing = currentUser.following.some((id) => String(id) === String(userToFollow._id));
+        if (isAlreadyFollowing) {
+            logger_1.default.warn(`User ${userId} is already following User ${userIdToFollow}`);
             return res.status(400).json({ message: "Already following this user" });
         }
         // Add to following and followers
-        currentUser.following.push(new mongoose_1.default.Schema.Types.ObjectId(userIdToFollow));
-        userToFollow.followers.push(new mongoose_1.default.Schema.Types.ObjectId(userId));
+        currentUser.following.push(userToFollow._id);
+        userToFollow.followers.push(currentUser._id);
+        // Save both users
         await currentUser.save();
         await userToFollow.save();
-        res.status(200).json({ message: "Successfully followed user" });
+        logger_1.default.info(`User ${userId} successfully followed User ${userIdToFollow}`);
+        return res.status(200).json({ message: "Successfully followed the user" });
     }
     catch (error) {
-        console.error(`Server error on following user: ${error.message}`);
-        res.status(500).json({ message: "Server error", error: error.message || error });
+        logger_1.default.error(`Error while following user: ${error.message}`);
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 exports.followUser = followUser;
 const unfollowUser = async (req, res) => {
-    const { userIdToUnfollow } = req.body;
-    const { userId } = req.params;
+    const { userIdToUnfollow } = req.body; // The user to unfollow
+    const { userId } = req.params; // The current user
     try {
-        // Convert string IDs to ObjectId
-        const userToUnfollow = await user_model_1.default.findById(new mongoose_1.default.Types.ObjectId(userIdToUnfollow));
-        const currentUser = await user_model_1.default.findById(new mongoose_1.default.Types.ObjectId(userId));
+        logger_1.default.info(`Unfollow request initiated: User ${userId} wants to unfollow User ${userIdToUnfollow}`);
+        // Ensure both user IDs are valid ObjectId instances
+        if (!mongoose_1.default.Types.ObjectId.isValid(userIdToUnfollow) || !mongoose_1.default.Types.ObjectId.isValid(userId)) {
+            logger_1.default.warn(`Invalid user IDs: userIdToUnfollow: ${userIdToUnfollow}, userId: ${userId}`);
+            return res.status(400).json({ message: "Invalid user IDs" });
+        }
+        // Fetch both users
+        const userToUnfollow = await user_model_1.default.findById(userIdToUnfollow);
+        const currentUser = await user_model_1.default.findById(userId);
+        // Check if the users exist
         if (!userToUnfollow || !currentUser) {
+            logger_1.default.warn(`User not found: userIdToUnfollow: ${userIdToUnfollow}, userId: ${userId}`);
             return res.status(404).json({ message: "User not found" });
         }
-        // Convert ObjectId to strings for comparison
-        const userIdToUnfollowStr = new mongoose_1.default.Types.ObjectId(userIdToUnfollow).toString();
-        const userIdStr = new mongoose_1.default.Types.ObjectId(userId).toString();
-        // Check if following
-        const isFollowing = currentUser.following.some((id) => id.toString() === userIdToUnfollowStr);
-        if (!isFollowing) {
-            return res.status(400).json({ message: "Not following this user" });
+        // Prevent self-unfollow
+        if (userId === userIdToUnfollow) {
+            logger_1.default.warn(`User ${userId} attempted to unfollow themselves.`);
+            return res.status(400).json({ message: "You cannot unfollow yourself" });
         }
-        // Remove from following and followers
-        currentUser.following = currentUser.following.filter((id) => id.toString() !== userIdToUnfollowStr);
-        userToUnfollow.followers = userToUnfollow.followers.filter((id) => id.toString() !== userIdStr);
+        // Check if the user is actually following the other user
+        const isFollowing = currentUser.following.some((id) => String(id) === String(userToUnfollow._id));
+        if (!isFollowing) {
+            logger_1.default.warn(`User ${userId} is not following User ${userIdToUnfollow}`);
+            return res.status(400).json({ message: "You are not following this user" });
+        }
+        // Remove the user from following and followers lists
+        currentUser.following = currentUser.following.filter((id) => String(id) !== String(userToUnfollow._id));
+        userToUnfollow.followers = userToUnfollow.followers.filter((id) => String(id) !== String(currentUser._id));
+        // Save both users
         await currentUser.save();
         await userToUnfollow.save();
-        res.status(200).json({ message: "Successfully unfollowed user" });
+        logger_1.default.info(`User ${userId} successfully unfollowed User ${userIdToUnfollow}`);
+        return res.status(200).json({ message: "Successfully unfollowed the user" });
     }
     catch (error) {
-        console.error(`Server error on unfollowing user: ${error.message}`);
-        res.status(500).json({ message: "Server error", error: error.message || error });
+        logger_1.default.error(`Error while unfollowing user: ${error.message}`);
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 exports.unfollowUser = unfollowUser;
@@ -375,12 +404,16 @@ const getFollowing = async (req, res) => {
     const { userId } = req.params;
     const { page = 1, limit = 10, search } = req.query;
     try {
+        logger_1.default.info(`Fetching following users for User ID: ${userId}, Page: ${page}, Limit: ${limit}, Search: ${search}`);
         const user = await user_model_1.default.findById(userId).populate({
             path: "following",
             select: "name tag",
             match: search
                 ? {
-                    $or: [{ name: new RegExp(search, "i") }, { tag: new RegExp(search, "i") }],
+                    $or: [
+                        { name: new RegExp(search, "i") },
+                        { tag: new RegExp(search, "i") },
+                    ],
                 }
                 : {},
             options: {
@@ -389,6 +422,7 @@ const getFollowing = async (req, res) => {
             },
         });
         if (!user) {
+            logger_1.default.warn(`User not found: User ID: ${userId}`);
             return res.status(404).json({ message: "User not found" });
         }
         const total = user.following.length;
@@ -401,10 +435,11 @@ const getFollowing = async (req, res) => {
             previous_page: Number(page) > 1 ? Number(page) - 1 : null,
             last_page: Math.ceil(total / Number(limit)),
         };
+        logger_1.default.info(`Successfully fetched following users for User ID: ${userId}`);
         res.status(200).json({ following: user.following, metadata });
     }
     catch (error) {
-        console.error(`Server error on fetching following users: ${error.message}`);
+        logger_1.default.error(`Server error on fetching following users: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message || error });
     }
 };
@@ -413,12 +448,16 @@ const getFollowers = async (req, res) => {
     const { userId } = req.params;
     const { page = 1, limit = 10, search } = req.query;
     try {
+        logger_1.default.info(`Fetching followers for User ID: ${userId}, Page: ${page}, Limit: ${limit}, Search: ${search}`);
         const user = await user_model_1.default.findById(userId).populate({
             path: "followers",
             select: "name tag",
             match: search
                 ? {
-                    $or: [{ name: new RegExp(search, "i") }, { tag: new RegExp(search, "i") }],
+                    $or: [
+                        { name: new RegExp(search, "i") },
+                        { tag: new RegExp(search, "i") },
+                    ],
                 }
                 : {},
             options: {
@@ -427,6 +466,7 @@ const getFollowers = async (req, res) => {
             },
         });
         if (!user) {
+            logger_1.default.warn(`User not found: User ID: ${userId}`);
             return res.status(404).json({ message: "User not found" });
         }
         const total = user.followers.length;
@@ -439,10 +479,11 @@ const getFollowers = async (req, res) => {
             previous_page: Number(page) > 1 ? Number(page) - 1 : null,
             last_page: Math.ceil(total / Number(limit)),
         };
+        logger_1.default.info(`Successfully fetched followers for User ID: ${userId}`);
         res.status(200).json({ followers: user.followers, metadata });
     }
     catch (error) {
-        console.error(`Server error on fetching followers: ${error.message}`);
+        logger_1.default.error(`Server error on fetching followers: ${error.message}`);
         res.status(500).json({ message: "Server error", error: error.message || error });
     }
 };

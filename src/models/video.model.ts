@@ -23,6 +23,7 @@ interface IVideo extends Document {
   category: Schema.Types.ObjectId;
   date: Date;
   videodata: IVideodata;
+  user: Schema.Types.ObjectId;
 }
 
 const videoSchema = new Schema<IVideo>({
@@ -31,6 +32,7 @@ const videoSchema = new Schema<IVideo>({
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   date: { type: Date, default: Date.now },
   videodata: { type: Object, required: true },
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 });
 
 const Video = model<IVideo>("Video", videoSchema);
