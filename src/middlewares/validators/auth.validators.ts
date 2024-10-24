@@ -43,11 +43,15 @@ const resetPasswordWithCodeValidator = [
 
 
   const followUserValidator = [
-    check('userIdToFollow', 'User ID to follow is required').not().isEmpty().isMongoId().withMessage('Invalid User ID')
+    check('userIdToFollow', 'User ID to follow is required')
+      .not().isEmpty()
+      .isMongoId().withMessage('Invalid User ID format'),
   ];
   
   const unfollowUserValidator = [
-    check('userIdToUnfollow', 'User ID to unfollow is required').not().isEmpty().isMongoId().withMessage('Invalid User ID')
+    check('userIdToUnfollow', 'User ID to unfollow is required')
+      .not().isEmpty()
+      .isMongoId().withMessage('Invalid User ID format'),
   ];
   
 export { registerValidator, followUserValidator, unfollowUserValidator, loginValidator, updateUserValidator, resetPasswordValidator, resetPasswordWithCodeValidator };

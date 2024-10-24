@@ -42,11 +42,15 @@ const resetPasswordWithCodeValidator = [
 ];
 exports.resetPasswordWithCodeValidator = resetPasswordWithCodeValidator;
 const followUserValidator = [
-    (0, express_validator_1.check)('userIdToFollow', 'User ID to follow is required').not().isEmpty().isMongoId().withMessage('Invalid User ID')
+    (0, express_validator_1.check)('userIdToFollow', 'User ID to follow is required')
+        .not().isEmpty()
+        .isMongoId().withMessage('Invalid User ID format'),
 ];
 exports.followUserValidator = followUserValidator;
 const unfollowUserValidator = [
-    (0, express_validator_1.check)('userIdToUnfollow', 'User ID to unfollow is required').not().isEmpty().isMongoId().withMessage('Invalid User ID')
+    (0, express_validator_1.check)('userIdToUnfollow', 'User ID to unfollow is required')
+        .not().isEmpty()
+        .isMongoId().withMessage('Invalid User ID format'),
 ];
 exports.unfollowUserValidator = unfollowUserValidator;
 //# sourceMappingURL=auth.validators.js.map
