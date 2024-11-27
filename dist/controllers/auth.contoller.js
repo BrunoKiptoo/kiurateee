@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPasswordWithCode = exports.getAllUsers = exports.deleteUser = exports.deleteAllUsers = exports.updateUser = exports.refreshToken = exports.resetPassword = exports.login = exports.followUser = exports.unfollowUser = exports.getFollowing = exports.getFollowers = exports.register = void 0;
+exports.resetPasswordWithCode = exports.getUserById = exports.getAllUsers = exports.deleteUser = exports.deleteAllUsers = exports.updateUser = exports.refreshToken = exports.resetPassword = exports.login = exports.followUser = exports.unfollowUser = exports.getFollowing = exports.getFollowers = exports.register = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const express_validator_1 = require("express-validator");
@@ -14,6 +14,7 @@ const sms_1 = require("../utils/sms");
 const crypto_1 = __importDefault(require("crypto"));
 const cloudinary_1 = require("cloudinary");
 const mongoose_1 = __importDefault(require("mongoose"));
+const video_model_1 = __importDefault(require("../models/video.model"));
 // Middleware to handle file upload
 // Cloudinary configuration (add your own credentials)
 cloudinary_1.v2.config({
@@ -312,6 +313,26 @@ const getAllUsers = async (req, res) => {
     }
 };
 exports.getAllUsers = getAllUsers;
+// Controller to get a user by ID
+const getUserById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        // Find the user by ID
+        const user = await user_model_1.default.findById(id)
+            .populate("selectedCategories", "title cover_image"); // Populate categories
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        // Dynamically populate videos created by this user
+        const videos = await video_model_1.default.find({ user: id }).populate("category", "title cover_image");
+        res.json({ user: Object.assign(Object.assign({}, user.toObject()), { videos }) }); // Merge videos into user object
+    }
+    catch (err) {
+        logger_1.default.error(`Server error on fetching user by ID: ${err.message}`);
+        res.status(500).send("Server error");
+    }
+};
+exports.getUserById = getUserById;
 const followUser = async (req, res) => {
     const { userIdToFollow } = req.body;
     const { userId } = req.params;
@@ -410,10 +431,7 @@ const getFollowing = async (req, res) => {
             select: "name tag",
             match: search
                 ? {
-                    $or: [
-                        { name: new RegExp(search, "i") },
-                        { tag: new RegExp(search, "i") },
-                    ],
+                    $or: [{ name: new RegExp(search, "i") }, { tag: new RegExp(search, "i") }],
                 }
                 : {},
             options: {
@@ -454,10 +472,7 @@ const getFollowers = async (req, res) => {
             select: "name tag",
             match: search
                 ? {
-                    $or: [
-                        { name: new RegExp(search, "i") },
-                        { tag: new RegExp(search, "i") },
-                    ],
+                    $or: [{ name: new RegExp(search, "i") }, { tag: new RegExp(search, "i") }],
                 }
                 : {},
             options: {

@@ -30,7 +30,7 @@ const createVideo = async (req, res) => {
             category,
             date,
             videodata,
-            user: userId, // Associate the video with the userId from req.body
+            user: userId,
         });
         // Save the video to the database
         await newVideo.save();
