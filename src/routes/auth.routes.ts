@@ -14,6 +14,7 @@ import {
   getFollowers,
   followUser,
   unfollowUser,
+  getUserById,
 } from "../controllers/auth.contoller";
 import {
   registerValidator,
@@ -35,6 +36,7 @@ router.put("/user/:id", validateApiKey, updateUserValidator, validate, updateUse
 router.delete("/users", validateApiKey, deleteAllUsers);
 router.delete("/user/:id", validateApiKey, deleteUser);
 router.get("/users", validateApiKey, getAllUsers);
+router.get("/users/:id", validateApiKey, getUserById);
 router.post("/reset-password", validateApiKey, resetPasswordValidator, validate, resetPassword);
 router.post("/reset-password-with-code", validateApiKey, resetPasswordWithCodeValidator, validate, resetPasswordWithCode);
 router.post("/follow/:userId", validateApiKey, followUserValidator, validate, followUser);

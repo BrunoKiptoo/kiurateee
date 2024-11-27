@@ -10,6 +10,7 @@ import { sendSms } from "../utils/sms";
 import crypto from "crypto";
 import { v2 as cloudinary } from "cloudinary";
 import mongoose, { ObjectId } from "mongoose";
+import Video from "../models/video.model";
 
 // Middleware to handle file upload
 
@@ -350,6 +351,30 @@ const getAllUsers = async (req: Request, res: Response) => {
     res.status(500).send("Server error");
   }
 };
+
+// Controller to get a user by ID
+const getUserById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(id)
+      .populate("selectedCategories", "title cover_image"); // Populate categories
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Dynamically populate videos created by this user
+    const videos = await Video.find({ user: id }).populate("category", "title cover_image");
+
+    res.json({ user: { ...user.toObject(), videos } }); // Merge videos into user object
+  } catch (err) {
+    Logger.error(`Server error on fetching user by ID: ${err.message}`);
+    res.status(500).send("Server error");
+  }
+};
+
 const followUser = async (req: Request, res: Response) => {
   const { userIdToFollow } = req.body;
   const { userId } = req.params;
@@ -557,5 +582,6 @@ export {
   deleteAllUsers,
   deleteUser,
   getAllUsers,
+  getUserById,
   resetPasswordWithCode,
 };

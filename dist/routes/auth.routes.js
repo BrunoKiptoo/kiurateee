@@ -13,6 +13,7 @@ router.put("/user/:id", api_key_config_1.validateApiKey, auth_validators_1.updat
 router.delete("/users", api_key_config_1.validateApiKey, auth_contoller_1.deleteAllUsers);
 router.delete("/user/:id", api_key_config_1.validateApiKey, auth_contoller_1.deleteUser);
 router.get("/users", api_key_config_1.validateApiKey, auth_contoller_1.getAllUsers);
+router.get("/users/:id", api_key_config_1.validateApiKey, auth_contoller_1.getUserById);
 router.post("/reset-password", api_key_config_1.validateApiKey, auth_validators_1.resetPasswordValidator, validate_request_1.validate, auth_contoller_1.resetPassword);
 router.post("/reset-password-with-code", api_key_config_1.validateApiKey, auth_validators_1.resetPasswordWithCodeValidator, validate_request_1.validate, auth_contoller_1.resetPasswordWithCode);
 router.post("/follow/:userId", api_key_config_1.validateApiKey, auth_validators_1.followUserValidator, validate_request_1.validate, auth_contoller_1.followUser);

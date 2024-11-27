@@ -219,3 +219,49 @@
 2024-10-24 17:30:06:306 info: User 67114a33c3f23a6cb613622d successfully unfollowed User 6710e1e3a3d9e371143f42ad
 2024-10-24 17:30:06:306 info: ::1 - - [24/Oct/2024:14:30:06 +0000] "POST /api/v1/auth/unfollow/67114a33c3f23a6cb613622d HTTP/1.1" 200 46 "-" "PostmanRuntime/7.39.0"
 
+2024-11-13 10:30:25:3025 info: ::1 - - [13/Nov/2024:07:30:25 +0000] "GET /api/v1/auth/users/:id HTTP/1.1" 401 24 "-" "PostmanRuntime/7.39.0"
+
+2024-11-13 10:31:23:3123 error: Server error on fetching user by ID: Cast to ObjectId failed for value ":id" (type string) at path "_id" for model "User"
+2024-11-13 10:31:23:3123 info: ::1 - - [13/Nov/2024:07:31:23 +0000] "GET /api/v1/auth/users/:id HTTP/1.1" 500 12 "-" "PostmanRuntime/7.39.0"
+
+2024-11-13 10:33:22:3322 info: ::1 - - [13/Nov/2024:07:33:22 +0000] "GET /api/v1/auth/users/6710e1e3a3d9e371143f42ad HTTP/1.1" 200 407 "-" "PostmanRuntime/7.39.0"
+
+2024-11-13 10:46:26:4626 info: ::1 - - [13/Nov/2024:07:46:26 +0000] "GET /api/v1/auth/users/6710e1e3a3d9e371143f42ad HTTP/1.1" 200 1416 "-" "PostmanRuntime/7.39.0"
+
+2024-11-13 11:02:50:250 info: ::1 - - [13/Nov/2024:08:02:50 +0000] "GET /api/v1/videos/all HTTP/1.1" 200 6742 "-" "PostmanRuntime/7.39.0"
+
+2024-11-13 17:06:42:642 info: ::1 - - [13/Nov/2024:14:06:42 +0000] "GET /api/v1/auth/user/6710e1e3a3d9e371143f42ad HTTP/1.1" 404 103 "-" "PostmanRuntime/7.39.0"
+
+2024-11-13 17:06:48:648 info: ::1 - - [13/Nov/2024:14:06:48 +0000] "GET /api/v1/auth/user/6710e1e3a3d9e371143f42ad HTTP/1.1" 404 103 "-" "PostmanRuntime/7.39.0"
+
+2024-11-13 17:07:10:710 info: ::1 - - [13/Nov/2024:14:07:10 +0000] "GET /api/v1/auth/users/6710e1e3a3d9e371143f42ad HTTP/1.1" 200 1416 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:05:09:59 info: ::1 - - [27/Nov/2024:13:05:09 +0000] "GET /api/v2/videos/all HTTP/1.1" 404 68 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:05:56:556 info: ::1 - - [27/Nov/2024:13:05:56 +0000] "GET /api/v1/videos/all HTTP/1.1" 401 24 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:06:28:628 info: ::1 - - [27/Nov/2024:13:06:28 +0000] "GET /api/v1/videos/all HTTP/1.1" 200 6742 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:09:38:938 info: ::1 - - [27/Nov/2024:13:09:38 +0000] "GET /api/v1/auth/users/ HTTP/1.1" 401 24 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:09:44:944 info: ::1 - - [27/Nov/2024:13:09:44 +0000] "GET /api/v1/auth/users/ HTTP/1.1" 200 1340 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:10:26:1026 info: ::1 - - [27/Nov/2024:13:10:26 +0000] "GET /api/v1/auth/users/67262243376e2bdca99260df HTTP/1.1" 200 1413 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:18:13:1813 info: ::1 - - [27/Nov/2024:13:18:13 +0000] "GET /api/v1/auth/users/67262243376e2bdca99260df HTTP/1.1" 200 1425 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:18:37:1837 info: ::1 - - [27/Nov/2024:13:18:37 +0000] "GET /api/v1/auth/users/ HTTP/1.1" 200 1376 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:18:44:1844 info: ::1 - - [27/Nov/2024:13:18:44 +0000] "GET /api/v1/auth/users/ HTTP/1.1" 200 1376 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:19:03:193 info: ::1 - - [27/Nov/2024:13:19:03 +0000] "GET /api/v1/videos/all HTTP/1.1" 200 6742 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:19:15:1915 info: ::1 - - [27/Nov/2024:13:19:15 +0000] "GET /api/v1/auth/users/6710e1e3a3d9e371143f42ad HTTP/1.1" 200 1428 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:27:28:2728 info: ::1 - - [27/Nov/2024:13:27:28 +0000] "GET /api/v1/auth/users/6710e1e3a3d9e371143f42ad HTTP/1.1" 200 4688 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:28:02:282 error: Server error on fetching user by ID: Cast to ObjectId failed for value "all" (type string) at path "_id" for model "User"
+2024-11-27 16:28:02:282 info: ::1 - - [27/Nov/2024:13:28:02 +0000] "GET /api/v1/auth/users/all HTTP/1.1" 500 12 "-" "PostmanRuntime/7.39.0"
+
+2024-11-27 16:28:07:287 info: ::1 - - [27/Nov/2024:13:28:07 +0000] "GET /api/v1/auth/users/ HTTP/1.1" 200 1376 "-" "PostmanRuntime/7.39.0"
+

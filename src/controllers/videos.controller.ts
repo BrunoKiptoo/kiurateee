@@ -29,7 +29,7 @@ const createVideo = async (req: Request, res: Response) => {
       category,
       date,
       videodata,
-      user: userId, // Associate the video with the userId from req.body
+      user: userId, 
     });
 
     // Save the video to the database

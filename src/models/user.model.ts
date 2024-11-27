@@ -1,5 +1,3 @@
-// src/models/user.model.ts
-
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IUser extends Document {
@@ -15,6 +13,7 @@ export interface IUser extends Document {
   };
   following: Schema.Types.ObjectId[];
   followers: Schema.Types.ObjectId[];
+  videos: Schema.Types.ObjectId[]; 
 }
 
 const UserSchema: Schema = new Schema({
@@ -30,6 +29,7 @@ const UserSchema: Schema = new Schema({
   },
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],
   followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  videos: [{ type: Schema.Types.ObjectId, ref: "Video" }], 
 });
 
 export default mongoose.model<IUser>("User", UserSchema);

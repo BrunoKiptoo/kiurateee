@@ -1,5 +1,4 @@
 "use strict";
-// src/models/user.model.ts
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -38,6 +37,7 @@ const UserSchema = new mongoose_1.Schema({
     },
     following: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "User" }],
     followers: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "User" }],
+    videos: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "Video" }],
 });
 exports.default = mongoose_1.default.model("User", UserSchema);
 //# sourceMappingURL=user.model.js.map
